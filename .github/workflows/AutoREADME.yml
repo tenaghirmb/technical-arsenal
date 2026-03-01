@@ -1,6 +1,8 @@
 name: README Automation
 run-name: ${{ github.actor }} is generating README 🚀
-on: [push]
+on:
+  workflow_dispatch:
+  push:
 jobs:
   Generate-README:
     runs-on: ubuntu-latest
