@@ -98,8 +98,9 @@ WantedBy=multi-user.target
 > 4. The option -R 0.0.0.0:22001:localhost:2002 maps the internal host port 2002 to the jump server’s port 22001. Routes traffic arriving at port 22001 on the VPS back to port 2002 on your internal server.
 > 5. Once connected, any access to port 22001 on the jump server will automatically forward to port 2002 on the internal host.
 > 6. Even though you type `-R` directly into the `autossh` command, `autossh` doesn't actually process that flag itself. Instead, `autossh` takes every single flag it doesn't recognize and silently hands them over to the standard `ssh` client hidden underneath.
-> # This is what autossh actually runs in the background for you:
-> `ssh -o TCPKeepAlive=yes -NR 0.0.0.0:22001:localhost:2002 tunnel@180.97.80.104 -p 2134`
+> ```# This is what autossh actually runs in the background for you:
+ssh -o TCPKeepAlive=yes -NR 0.0.0.0:22001:localhost:2002 tunnel@180.97.80.104 -p 2134
+```
 
 
 **4. Reload Systemd Daemon**
