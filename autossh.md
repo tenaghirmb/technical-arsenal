@@ -85,18 +85,11 @@ WantedBy=multi-user.target
 ```
 
 > Notes:
-
-The -M option specifies a monitoring port (use any available port).
-
--N means “no remote command”—it only establishes the tunnel without opening a shell.
-
--f runs AutoSSH in the background, but -f is not supported by systemd.
-
-The option -R 0.0.0.0:22001:localhost:2002 maps the internal host port 2002 to the jump server’s port 22001.
-Once connected, any access to port 22001 on the jump server will automatically forward to port 2002 on the internal host.
-
-
-
+1. The -M option specifies a monitoring port (use any available port).
+2. -N means “no remote command”—it only establishes the tunnel without opening a shell.
+3. -f runs AutoSSH in the background, but -f is not supported by systemd.
+4. The option -R 0.0.0.0:22001:localhost:2002 maps the internal host port 2002 to the jump server’s port 22001.
+5. Once connected, any access to port 22001 on the jump server will automatically forward to port 2002 on the internal host.
 
 
 **4. Reload Systemd Daemon**
