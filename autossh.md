@@ -1,6 +1,14 @@
 
 # SSH Reverse Tunnel Setup Guide
 
+## The Architecture
+- Internal Server: The private target machine (e.g., behind a home router or corporate firewall).
+- Public VPS: A publicly accessible server with a static IP (e.g., AWS, DigitalOcean).
+- Your Remote Laptop: The machine you are using outside the network to jump back in.
+
+[Remote Laptop] ---> [Public VPS:Port 22001] ===(Reverse Tunnel)=== [Internal Server:Port 2002]
+
+
 ## Network Configuration Overview
 
 **Internal Host (Private Network)**
@@ -29,7 +37,7 @@ Password:
 Public Configuration Port: 22001
 
 
-## Jump Server Configuration
+## Prepare the Public VPS
 
 **1. Modify SSH Configuration**
 
@@ -44,7 +52,7 @@ Edit /etc/ssh/sshd_config to allow SSH to bind to all interfaces (0.0.0.0), so t
 
 
 
-## Internal Host Configuration
+## Establish the Reverse Tunnel
 
 **1. Generate SSH Key and Configure Authentication**
 
@@ -71,7 +79,7 @@ Create a new systemd unit file for AutoSSH:
 
 Example configuration:
 
-```
+```bash
 [Unit]
 Description=AutoSSH tunnel service
 After=network.target
@@ -85,11 +93,11 @@ WantedBy=multi-user.target
 ```
 
 > Notes:
-1. The -M option specifies a monitoring port (use any available port).
-2. -N means “no remote command”—it only establishes the tunnel without opening a shell.
-3. -f runs AutoSSH in the background, but -f is not supported by systemd.
-4. The option -R 0.0.0.0:22001:localhost:2002 maps the internal host port 2002 to the jump server’s port 22001.
-5. Once connected, any access to port 22001 on the jump server will automatically forward to port 2002 on the internal host.
+> 1. The -M option specifies a monitoring port (use any available port).
+> 2. -N means “no remote command”—it only establishes the tunnel without opening a shell. (ideal for port forwarding only)
+> 3. -f runs AutoSSH in the background, but -f is not supported by systemd.
+> 4. The option -R 0.0.0.0:22001:localhost:2002 maps the internal host port 2002 to the jump server’s port 22001. Routes traffic arriving at port 22001 on the VPS back to port 2002 on your internal server.
+> 5. Once connected, any access to port 22001 on the jump server will automatically forward to port 2002 on the internal host.
 
 
 **4. Reload Systemd Daemon**
@@ -107,7 +115,9 @@ WantedBy=multi-user.target
 `sudo systemctl enable autosshd.service`
 
 
-## Testing the Connection
+## Jump into the Internal Serve
+
+From **your Remote Laptop** anywhere in the world, you can now jump through the VPS directly into your internal machine.
 
 Use the following command to test access through the reverse tunnel:
 
