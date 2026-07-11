@@ -5,7 +5,5 @@
 
 [autossh.md](autossh.md): Jump into Internal Servers - SSH Reverse Tunnel Setup Guide
 
-[vscode.md](vscode.md): Replacing GoLand - VS Code configuration and Kubebuilder setup guide
-
-Last synchronized by automated script at Mon Jul  6 22:31:39 UTC 2026
+Last synchronized by automated script at Sat Jul 11 23:53:24 UTC 2026
 
